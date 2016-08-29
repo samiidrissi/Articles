@@ -1,0 +1,56 @@
+{% extends "squelette.html" %}
+
+{% block TitreSection %}
+<h1>Page principale</h1>
+{% endblock %}
+
+{% block SousTitreSection %}
+<span class="subheading">Ensemble du contenu</span>
+{% endblock %}
+
+{% block contenu %}
+
+
+{% for article in articles %}
+<div class="article">
+
+    <h3>{{ article.titre }}</h3>
+
+    <p>{{ article.contenu|truncatewords_html:80 }}</p>
+
+    <p><a href="{% url "MonSiteWeb.views.post" article.id article.slug %}">Lire la suite</a></p>
+
+</div>
+{% empty %}
+<p>Aucun article.</p>
+{% endfor %}
+<hr>
+<div class="pager">
+<li >
+
+   {% if articles.has_previous %}
+
+       <a href="{% url 'url_index' articles.previous_page_number %}">&larr; Précédent </a> 
+
+   {% endif %}
+
+
+   <span class="current">
+
+       Page {{ articles.number }} sur {{ articles.paginator.num_pages }}
+
+   </span>
+
+
+   {% if articles.has_next %}
+
+        <a href="{% url 'url_index' articles.next_page_number %}">Suivant &rarr;</a>
+
+   {% endif %}
+</li>
+</div>
+{% endblock %}
+
+{% block img %}
+"background-image: url('/static/MonSiteWeb/img/home-bg.jpg')"
+{% endblock %}
